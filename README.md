@@ -76,3 +76,22 @@ If you want I can also:
 - Add an Action to auto-deploy to Render/Azure when you provide API keys as repository secrets.
 - Create a small `docker-compose` for local container development.
 
+Auto-deploy to Render (recommended, free tier friendly)
+-----------------------------------------------
+
+This repo includes a GitHub Actions workflow that will automatically trigger a deploy to Render after the CI workflow builds and publishes the container image to GitHub Container Registry (GHCR).
+
+What to set in your repository secrets (Settings → Secrets → Actions):
+
+- `RENDER_SERVICE_ID` — the Render service ID (the UUID for the service you want to update). You can find this on the service's page in the Render dashboard (Service Settings).
+- `RENDER_API_KEY` — a Render API key. Create one in your Render dashboard (Account → API Keys) and paste it here as a secret.
+
+How it works:
+
+1. On push to `main`, the existing CI runs tests and builds/pushes the image to GHCR.
+2. If CI succeeds, the `deploy-to-render.yml` workflow runs and calls the Render API to create a new deploy using the published GHCR image.
+
+If you'd like, I can also:
+- Add a small helper script to find the Render Service ID (via the Render API) and print the exact value to copy into the GitHub secret.
+- Add a `docker-compose.yml` for local container testing.
+
