@@ -50,3 +50,29 @@ Files created
 - `tests/test_app.py` - Minimal test
 
 If you'd like, I can: add department routing rules, wire an email/slack notifier, or convert the UI to React.
+
+Deployment
+----------
+
+This repository includes a `Dockerfile` and a GitHub Actions workflow (`.github/workflows/build-and-publish.yml`) that builds a container image and pushes it to GitHub Container Registry (GHCR) on every push to `main`.
+
+Quick deploy options:
+
+- Use the built image from GHCR directly on platforms such as Render, Fly.io, Azure App Service (Container), or any Kubernetes cluster. The image name will be:
+
+	ghcr.io/<your-github-username-or-org>/<repo-name>:latest
+
+	Example: ghcr.io/renukareddy8/Parent-University-Engagement-Feedback-Channels:latest
+
+- Deploy to Render (manual steps):
+	1. Create a new "Web Service" on Render and choose "Docker".
+	2. Use the GHCR image name above or connect Render to your GitHub repo and let it build from the `Dockerfile`.
+
+- Deploy to Azure App Service (Container):
+	1. Push the image to GHCR (workflow does that automatically).
+	2. Create an Azure Web App for Containers and point it at the GHCR image. Provide credentials via the Azure portal.
+
+If you want I can also:
+- Add an Action to auto-deploy to Render/Azure when you provide API keys as repository secrets.
+- Create a small `docker-compose` for local container development.
+
