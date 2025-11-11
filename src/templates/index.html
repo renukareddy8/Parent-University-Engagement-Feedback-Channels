@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Parent Feedback — University</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="topbar">
+        <nav>
+          <a class="btn primary" href="/">Submit Feedback</a>
+          <a class="btn" href="/dashboard">My Dashboard</a>
+        </nav>
+      </header>
+
+      <h1 class="title">Submit Feedback</h1>
+      <p class="subtitle">Share your thoughts and concerns. Our AI will analyze and route your feedback to the right department.</p>
+
+      <form action="/submit" method="post" class="feedback-form">
+        <div class="row">
+          <div class="col">
+            <label>Parent / Contact (Optional)</label>
+            <input name="parent_name" placeholder="Your name" />
+          </div>
+          <div class="col">
+            <label>Student Name (Optional)</label>
+            <input name="student_name" placeholder="Enter student's name" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label>Student ID (Optional)</label>
+            <input name="student_id" placeholder="Enter student ID" />
+          </div>
+          <div class="col">
+            <label>Feedback Title *</label>
+            <input name="title" placeholder="Brief title for your feedback" />
+          </div>
+        </div>
+
+        <label>Detailed Feedback *</label>
+        <textarea name="text" rows="8" required placeholder="Please provide detailed feedback about your experience, concerns, or suggestions."></textarea>
+
+        <div class="form-footer">
+          <button type="submit" class="btn primary large">Submit Feedback</button>
+        </div>
+      </form>
+
+      <hr />
+      <p><a href="/admin">Open admin dashboard (filter/search)</a></p>
+
+    </div>
+  </body>
+</html>

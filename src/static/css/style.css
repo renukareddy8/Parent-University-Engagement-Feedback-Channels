@@ -1,0 +1,47 @@
+:root{
+	--bg:#f1f5f9;
+	--muted:#64748b;
+	--accent:#1e40af;
+	--accent-weak:#eef2ff;
+	--card:#ffffff;
+	--soft:#eef2ff;
+}
+
+body { font-family: Inter, Arial, sans-serif; background:var(--bg); color:#0f172a; -webkit-font-smoothing:antialiased }
+.container { max-width:1100px; margin:28px auto; background:var(--card); padding:28px; border-radius:12px; box-shadow:0 8px 30px rgba(15,23,42,0.06);} 
+label { display:block; margin-top:12px; font-weight:700; color:#0f172a }
+input[type=text], input, textarea, select { width:100%; padding:12px; margin-top:6px; border:1px solid #e6e9ef; border-radius:8px; background:#fff; box-sizing:border-box }
+.topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px }
+.topbar nav { display:flex; gap:8px }
+.btn { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:10px; background:var(--accent-weak); color:var(--accent); text-decoration:none; font-weight:700; border:1px solid transparent }
+.btn:hover{ opacity:0.95; transform:translateY(-1px); }
+.btn.primary { background:var(--accent); color:white; box-shadow:0 6px 18px rgba(30,64,175,0.12) }
+.btn.primary:active{ transform:translateY(0) }
+.btn.ghost{ background:transparent; color:var(--accent); border:1px solid rgba(15,23,42,0.06) }
+.btn.large { padding:12px 18px; font-size:1.05rem }
+.title { text-align:center; margin-top:6px; font-size:1.8rem; font-weight:800 }
+.subtitle { text-align:center; color:var(--muted); margin-bottom:14px }
+.feedback-form { margin-top:18px }
+.row { display:flex; gap:12px; flex-wrap:wrap }
+.row .col { flex:1; min-width:220px }
+.form-footer { margin-top:16px; display:flex; justify-content:flex-start }
+.fb { border:1px solid var(--soft); padding:14px; border-radius:10px; margin-bottom:12px; background:#fbfdff }
+.fb .meta { font-size:0.95em; color:var(--muted); margin-bottom:8px; display:flex; justify-content:space-between; align-items:center }
+.fb .text{ color:#0f172a; line-height:1.5 }
+.sentiment { font-weight:700; }
+
+/* Admin table and dashboard styles */
+table.history { width:100%; border-collapse:collapse; margin-top:18px; font-size:0.95rem }
+table.history th, table.history td { padding:10px 8px; border-bottom:1px solid var(--soft); text-align:left }
+table.history th { color:var(--muted); font-weight:700 }
+
+.stats { display:flex; gap:18px; justify-content:center; margin-top:18px; flex-wrap:wrap }
+.stat { text-align:center; min-width:120px; background:#fff; border-radius:10px; padding:12px; box-shadow:0 6px 18px rgba(15,23,42,0.03) }
+
+/* responsive */
+@media (max-width:900px){
+	.container{ padding:18px }
+	.row{ flex-direction:column }
+	.topbar nav{ gap:6px }
+}
+

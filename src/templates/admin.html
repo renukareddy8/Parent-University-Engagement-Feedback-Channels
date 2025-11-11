@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Dashboard — Parent Feedback</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <style>
+      .filters { display:flex; gap:8px; align-items:flex-end }
+      .counts { margin-top:8px; color:#555 }
+      .fb .meta { display:flex; justify-content:space-between }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Admin Dashboard</h1>
+      <p>Filter by category, sentiment, or department.</p>
+
+      <form method="get" action="/admin" class="filters">
+        <div>
+          <label>Category</label>
+          <input name="category" value="{{ filters.category or '' }}" placeholder="e.g. Academics" />
+        </div>
+        <div>
+          <label>Sentiment</label>
+          <input name="sentiment" value="{{ filters.sentiment or '' }}" placeholder="positive/neutral/negative" />
+        </div>
+        <div>
+          <label>Department</label>
+          <select name="department">
+            <option value="">(any)</option>
+            {% for d in departments %}
+            <option value="{{ d }}" {% if filters.department == d %}selected{% endif %}>{{ d }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div>
+          <button type="submit">Apply</button>
+        </div>
+      </form>
+
+      <div class="counts">Total: {{ counts.total }} — Showing: {{ counts.filtered }}</div>
+
+      <hr />
+
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px">
+        <div class="counts">Total: {{ counts.total }} — Showing: {{ counts.filtered }}</div>
+        <div><a class="btn ghost" href="/admin/export">Export CSV</a></div>
+      </div>
+
+      <hr />
+
+      <div id="feedback-list">
+        {% for fb in feedbacks|reverse %}
+        <div class="fb">
+          <div class="meta">
+            <div><strong>{{ fb.parent_name or 'Anonymous parent' }}</strong> — <em>{{ fb.category }}</em> — <span class="sentiment">{{ fb.sentiment }}</span></div>
+            <div style="text-align:right">{{ fb.department or '' }} {% if fb.notified %}(notified){% endif %}</div>
+          </div>
+          <div class="text">{{ fb.title or '' }}<div style="color:#64748b; margin-top:6px">{{ fb.text }}</div></div>
+
+          <div style="margin-top:10px; display:flex; gap:8px; align-items:center">
+            <form method="post" action="/admin/feedback/{{ fb.id }}/update" style="display:flex; gap:8px; align-items:center;">
+              <select name="status">
+                <option value="pending" {% if fb.status == 'pending' %}selected{% endif %}>Pending</option>
+                <option value="in_progress" {% if fb.status == 'in_progress' or fb.status == 'in progress' %}selected{% endif %}>In Progress</option>
+                <option value="resolved" {% if fb.status == 'resolved' %}selected{% endif %}>Resolved</option>
+                <option value="being_addressed" {% if fb.status == 'being_addressed' %}selected{% endif %}>Being Addressed</option>
+              </select>
+              <input name="note" placeholder="admin note (optional)" style="min-width:240px" />
+              <button type="submit" class="btn">Update</button>
+            </form>
+          </div>
+
+          {% if fb.history %}
+          <details style="margin-top:10px">
+            <summary style="color:var(--muted)">Change history ({{ fb.history|length }})</summary>
+            <ul>
+              {% for h in fb.history %}
+              <li style="font-size:0.9rem; color:#475569">{{ h.when }} — {{ h.actor }}: {{ h.from }} → {{ h.to }}{% if h.note %} — {{ h.note }}{% endif %}</li>
+              {% endfor %}
+            </ul>
+          </details>
+          {% endif %}
+
+        </div>
+        {% else %}
+        <p>No feedback matching filters.</p>
+        {% endfor %}
+      </div>
+
+      <p style="margin-top:18px;"><a href="/dashboard">Open parent dashboard</a></p>
+
+      <p><a href="/">Back to submit page</a></p>
+    </div>
+  </body>
+</html>

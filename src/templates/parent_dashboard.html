@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Parent Dashboard — ParentConnect</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <style>
+      .stats { display:flex; gap:24px; justify-content:center; margin-top:18px }
+      .stat { text-align:center; min-width:120px }
+      .recent { max-width:760px; margin:18px auto }
+      table.history { width:100%; border-collapse:collapse; margin-top:18px }
+      table.history th, table.history td { padding:8px 6px; border-bottom:1px solid #eef2ff; text-align:left }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 style="text-align:center">ParentConnect</h1>
+      <p style="text-align:center; color:#475569">AI-Powered Feedback Platform</p>
+
+      <div style="text-align:center; margin-top:8px">Welcome back, Parent!</div>
+
+      <div class="stats">
+        <div class="stat">
+          <h3>Total Feedback</h3>
+          <div style="font-size:1.4rem">{{ total }}</div>
+        </div>
+        <div class="stat">
+          <h3>Pending</h3>
+          <div>{{ by_status.get('pending', 0) }}</div>
+        </div>
+        <div class="stat">
+          <h3>In Progress</h3>
+          <div>{{ by_status.get('in progress', by_status.get('in_progress', 0)) }}</div>
+        </div>
+        <div class="stat">
+          <h3>Resolved</h3>
+          <div>{{ by_status.get('resolved', 0) }}</div>
+        </div>
+      </div>
+
+      <h2 style="text-align:center; margin-top:18px">Sentiment Analysis</h2>
+      <div style="text-align:center">Positive {{ (by_sentiment.positive / (total or 1) * 100) | round(1) }}% &nbsp;&nbsp; Negative {{ (by_sentiment.negative / (total or 1) * 100) | round(1) }}% &nbsp;&nbsp; Neutral {{ (by_sentiment.neutral / (total or 1) * 100) | round(1) }}%</div>
+
+      <h2 style="text-align:center; margin-top:20px">Recent Activity</h2>
+      <div class="recent">
+        {% for r in recent %}
+        <div class="fb">
+          <div class="meta"><strong>{{ r.parent_name or 'Anonymous' }}</strong> — <em>{{ r.department or r.category }}</em> — <span class="sentiment">{{ r.sentiment }}</span></div>
+          <div class="text">{{ r.title or '' }}<div style="color:#64748b; margin-top:6px">{{ r.text }}</div></div>
+        </div>
+        {% else %}
+        <p style="text-align:center; color:#64748b">No recent activity.</p>
+        {% endfor %}
+      </div>
+
+      <h2 style="text-align:center; margin-top:20px">Your Feedback History</h2>
+      <table class="history">
+        <thead>
+          <tr><th>Title</th><th>Department</th><th>Sentiment</th><th>Status</th><th>Submitted</th></tr>
+        </thead>
+        <tbody>
+          {% for h in history %}
+          <tr>
+            <td>{{ h.title or '(no title)' }}</td>
+            <td>{{ h.department or h.category }}</td>
+            <td>{{ h.sentiment }}</td>
+            <td>{{ h.status or 'pending' }}</td>
+            <td>{{ h.submitted or '' }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="5" style="text-align:center; color:#64748b">No feedback submitted yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <p style="text-align:center; margin-top:20px"><a href="/">Back to submit page</a></p>
+    </div>
+  </body>
+</html>
